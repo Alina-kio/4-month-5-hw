@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content%}
+
+    {% if movie_detail.image %}
+        <img src="{{ movie_detail.image.url }}" alt="" style="width: 200px; margin-top: 30px;">
+    {% endif %}
+    <p>{{ movie_detail.title }}</p>
+    <p>Director: {{ movie_detail.director }}</p>
+    <p>{{ movie_detail.description }}</p>
+    <hr/>
+    <h3>All reviews</h3>
+    {% for review in reviews %}
+        <p>{{ review.text }}</p>
+        <!-- <p>{{ review.movie }}</p> -->
+        <hr/>
+    {% endfor %}
+
+{% endblock %}
