@@ -25,7 +25,10 @@ urlpatterns = [
     path('movies/', views.movie_list_view),
     path('movies/<int:id>/', views.movie_detail_view),
     path('add_director/', views.add_director_view),
-    path('add_movie/', views.add_movie_view)
+    path('add_movie/', views.add_movie_view),
+    path('register/', views.register_view),
+    path('login/', views.login_view)
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

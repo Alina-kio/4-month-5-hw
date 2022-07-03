@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Director, Movie, Review
-from movie.forms import DirectorForm, MovieForm
+from movie.forms import DirectorForm, MovieForm, RegisterForm, LoginForm
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
 def movie_list_view(request):
+    # print(request.user)
     context = {
         'movie_list': Movie.objects.all(),
         'director_list': Director.objects.all()
@@ -41,5 +43,37 @@ def add_movie_view(request):
             form.save()
             return redirect('/movies/')
     return render(request, 'add_movie.html', context={
+        'form': form
+    })
+
+
+
+
+def register_view(request):
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/register/')
+    return render(request, 'register.html', context={
+        'form': form
+    })
+    
+
+
+def login_view(request):
+    form = LoginForm()
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, email=email,password=password)
+            if user:
+                login(request, user=user)
+        return redirect('/login/')
+    return render(request, 'login.html', context={
         'form': form
     })
